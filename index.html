@@ -1,0 +1,123 @@
+<!-- http://updates.html5rocks.com/2013/12/300ms-tap-delay-gone-away -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MSGEQ7 & ESP8266 color pick</title>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style id="jsbin-css">
+    .colour-changer {
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;     
+    }
+    .colour-off {
+      height: 20px;
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;  
+      background-color:black;
+    }
+    .colour-on {
+      height: 20px;
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;  
+      background-color:white;
+     border: 1px solid black;
+    }     
+  </style>
+</head>
+<body>
+  <div class="colour-on" onclick="xhr = new XMLHttpRequest(); xhr.open('GET', 'on', true); xhr.send(null);" ontouchstart="xhr = new XMLHttpRequest(); xhr.open('GET', 'on', true); xhr.send(null);"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-off" onclick="xhr = new XMLHttpRequest(); xhr.open('GET', 'off', true); xhr.send(null);" ontouchstart="xhr = new XMLHttpRequest(); xhr.open('GET', 'off', true); xhr.send(null);"></div>
+  <script>
+    function toArray(arr) {
+      return Array.prototype.slice.call(arr);
+    }
+    function rgb2hex(rgb) {
+      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+      function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+      }
+      return "~" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    }
+    toArray(document.querySelectorAll('.colour-changer')).forEach(function(div, i, arr) {
+      var hue = (i / arr.length) * 360;
+      div.style.background = 'hsl(' + hue + ', 100%, 50%)';
+       div.style.width = (1 -  Math.pow(Math.abs(i - arr.length/2),0.5) / Math.pow(Math.abs(arr.length - arr.length/2),0.5) ) * 100 + '%';
+       div.style.height = (( Math.pow(Math.abs(arr.length/2 - i),3) ) / (10*screen.height) +10) + 'px';
+      function click(event) {
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', rgb2hex(div.style.backgroundColor), true);
+        xhr.send(null);
+        event.preventDefault();
+      }
+      div.addEventListener('touchstart', click);
+      div.addEventListener('click', click);
+    });
+  </script>
+</body>
+</html>
