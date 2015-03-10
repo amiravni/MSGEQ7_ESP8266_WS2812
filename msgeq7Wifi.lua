@@ -18,16 +18,13 @@ function floor(a)
      return (a - a%1)
 end
 
-stripPin = 3
+stripPin = 2
 resetPin = 4
 strobePin = 6
 adPin = 0
-spectrumValue={}
 RGB={r=255,g=0,b=0}
-minVal = 350
-maxVal = 1023
-dly = 1000
-
+minVal = {200,150,300,300,300,250,350}
+--SV={0,0,0,0,0,0,0}
 gpio.mode(resetPin, gpio.OUTPUT)  
 gpio.mode(strobePin, gpio.OUTPUT) 
 gpio.write(resetPin, gpio.LOW)
@@ -95,34 +92,32 @@ conn:on("receive", function(conn, payload)
 
 end)
 
-tmr.alarm(0, 75, 1, function() 
+tmr.alarm(0, 50, 1, function() 
 
      gpio.write(resetPin, gpio.HIGH)
      gpio.write(resetPin, gpio.LOW)
      local lastString=nil
      
-     for i = 1,8 do 
+     for i = 1,7 do 
           gpio.write(strobePin, gpio.LOW)
-          tmr.delay(dly)
-          local spectrumValue = adc.read(adPin)
+          local l_minVal =  minVal[i]
+          local spectrumValue = adc.read(adPin)   
+     --    print("Oct["..i.."]: Val = ",tostring(spectrumValue))
           gpio.write(strobePin, gpio.HIGH)
-          spectrumValue = max(minVal,min(maxVal,spectrumValue))
-          spectrumValue = (1 * (spectrumValue - minVal) / (maxVal - minVal ))
-        -- print("Oct["..i.."]: Val = ",tostring(spectrumValue[i]))
-    --     local red = 1*min(85,max((spectrumValue[i]-85),0));
-    --     local green =1*min(85,max((spectrumValue[i]-170),0));
-    --     local blue = 1*min(85,max((spectrumValue[i]-0),0));
+          spectrumValue = max(l_minVal,min(1023,spectrumValue))
+          spectrumValue = (1 * (spectrumValue - l_minVal) / (1023 - l_minVal ))
           local r = floor(min(255,max((spectrumValue*RGB.r),0)))
           local g = floor(min(255,max((spectrumValue*RGB.g),0)))
           local b = floor(min(255,max((spectrumValue*RGB.b),0)))
-         local triString = string.char(0, 0, 0)..string.char(g, r, b):rep(2)
-         if i==1 then
+          triString=string.char(1,1,1,g,r,b,g,r,b)
+     
+        if i==1 then
                lastString = triString
          else
                lastString = lastString..triString
          end
      end
-   -- print("                      ")
+ --   print("                      ")
      ws2812.write(stripPin, lastString)
 
 end )
