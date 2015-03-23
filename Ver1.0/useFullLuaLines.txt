@@ -1,0 +1,5 @@
+for n,s in pairs(file.list()) do file.remove(n) end
+
+
+node.compile("Wifi.lua")
+node.compile("mathFunc.lua")

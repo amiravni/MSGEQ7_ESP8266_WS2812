@@ -1,0 +1,202 @@
+<!-- HTML script is based on a script by Markus Gritsch. Thanks man you are great! -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MSGEQ7 & ESP8266 color pick</title>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style id="jsbin-css">
+    .colour-changer {
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;     
+    }
+    .colour-off {
+      height: 20px;
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;  
+     background-color:black;
+    }
+    .colour-on {
+     height: 20px;
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;  
+     background-color:white;
+     border: 1px solid black;
+    }     
+	.octaveChoose {
+    width: 100%;
+    height: 60px;		
+	}
+	.octaveChooseRange {
+    width: 100%;
+    height: 60px;		
+	}
+	.typeSelector {
+    width: 100%;		
+	}	
+	.menuCenter {
+	background-color:#00ffe6;
+	border: 1px solid black;
+	width: 100%;
+	}	
+  </style>
+</head>
+<body>
+  <div class="colour-on" onclick="xhr = new XMLHttpRequest(); xhr.open('GET', '~FFFFFF', true); xhr.send(null);" ontouchstart="xhr = new XMLHttpRequest(); xhr.open('GET', '~FFFFFF', true); xhr.send(null);"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="menuCenter" align="left"><table ><tr><td  class="octaveChoose"><output for=selector id="formChange">
+  <form id="octForm"><legend id="rangeText">Select Octave and Color</legend>
+<input class="octaveChooseRange" name="rangeInput" id="rangeInput" type=range min=1 max=7 value=4 step=1 list=octList oninput="outputUpdate(value)">
+<datalist id=octList>
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+</datalist></form>
+<output for=rangeInput id=volume>1KHz</output></output></td>
+<td class="typeSelector">
+<form >
+<select  id="selector" oninput="formUpdate(value)">
+<option value="1">SingleOctave</option>
+<option value="2">AllOctaves</option>
+<option value="3">Evens</option>
+<option value="4">Odds</option>
+<option value="5">Rainbow</option>
+<option value="6">twoColor</option>
+</select>
+</form>
+</td></tr></table>
+</div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+  <div class="colour-changer"></div>
+<!--  <div class="colour-changer"></div> -->
+  <div class="colour-off" onclick="xhr = new XMLHttpRequest(); xhr.open('GET', '~000000', true); xhr.send(null);" ontouchstart="xhr = new XMLHttpRequest(); xhr.open('GET', '~000000', true); xhr.send(null);"></div>
+  <script>
+    function toArray(arr) {
+      return Array.prototype.slice.call(arr);
+    }
+    function rgb2hex(rgb) {
+      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+      function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+      }
+      return "~" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    }
+    toArray(document.querySelectorAll('.colour-changer')).forEach(function(div, i, arr) {
+      var hue = (i / arr.length) * 360;
+      div.style.background = 'hsl(' + hue + ', 100%, 50%)';
+       div.style.width = (1 -  Math.pow(Math.abs(i - arr.length/2),0.5) / Math.pow(Math.abs(arr.length - arr.length/2),0.5) ) * 100 + '%';
+       div.style.height = (( Math.pow(Math.abs(arr.length/2 - i),3) ) / (10*screen.height) +10) + 'px';
+      function click(event) {
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', rgb2hex(div.style.backgroundColor), true);
+        xhr.send(null);
+        event.preventDefault();
+      }
+      div.addEventListener('touchstart', click);
+      div.addEventListener('click', click);
+    });
+	var octForm = {"1":'<form id="octForm"><legend id="rangeText">Select Octave and Color</legend>' + 
+	'<input class="octaveChooseRange" name="rangeInput" id="rangeInput" type=range min=1 max=7 value=4 step=1 list=octList oninput="outputUpdate(value)">' + 
+'<datalist id=octList><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></datalist></form>' +
+'<output for=rangeInput id=volume>1KHz</output>',  
+"2":'Choose Color For All Octaves', 
+"3":'Choose Color For Even Octaves', 
+"4":'Choose Color For Odd Octaves', 
+"5": 'Enjoy!',
+"6":'<form id="twoColor"><legend id="rangeText">Select side</legend>' + 
+	'<input class="octaveChooseRange" name="rangeInput" id="rangeInput" type=range min=1 max=2 value=1 step=1 list=octList oninput="outputUpdateTwoColor(value)">' + 
+'<datalist id=octList><option>1</option><option>2</option></datalist></form>' +
+'<output for=rangeInput id=sideChoose>1</output>'};
+function formUpdate(str) {
+		document.querySelector('#formChange').innerHTML = octForm[str];
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', 'typ' + str, true);
+        xhr.send(null);
+        event.preventDefault();		
+	}	
+	
+	var octNames = {"7":"63Hz","6":"160Hz","5":"400Hz","4":"1KHz","3":"2.5Khz","2":"6.25Khz","1":"16KHz"};
+	function outputUpdate(oct) {
+		document.querySelector('#volume').value = octNames[oct];
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', 'oct' + oct, true);
+        xhr.send(null);
+        event.preventDefault();		
+	}
+	
+	var sideNames = {"1":"7","2":"1"};
+	function outputUpdateTwoColor(side) {
+		document.querySelector('#sideChoose').value = sideNames[side];
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', 'two' + sideNames[side], true);
+        xhr.send(null);
+        event.preventDefault();		
+	}	
+  </script>
+</body>
+</html>
