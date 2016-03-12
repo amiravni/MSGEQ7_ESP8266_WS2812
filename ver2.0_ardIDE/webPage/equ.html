@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+    <head>
+        <title>title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="lib/jquery-1.6.4.js"></script>
+<script>
+    $(document).bind('mobileinit',function(){
+        $.mobile.changePage.defaults.changeHash = false;
+        $.mobile.hashListeningEnabled = false;
+        $.mobile.pushStateEnabled = false;
+    });
+</script> 		
+        <script src="lib/jquery.mobile-1.1.0.js"></script>
+		<script src="webSocketScript.js"></script>
+        <link href="src/css/jquery.mobile.structure-1.1.0.css" rel="stylesheet"
+        />
+        <link href="src/css/jquery.mobile.theme-1.1.0.css" rel="stylesheet" />
+    </head>
+
+
+    <body onload="WSConnect()">
+        <div data-role="page" id="page2">
+            <div data-role="header">
+                <h1>Spectrum Analyzer</h1>
+            </div>
+            <div data-role="content">
+                <div data-role="fieldcontain" ID="webSocketCell" style="background-color:red">
+                    <label for="text2">WebSocket IP</label>
+					<input type="text" id="ip" value="ws://10.0.0.9:81/" onblur='WSConnect()' />
+                </div>
+                <div data-role="collapsible" data-iconpos="top" data-collapsed="true">
+                    <h1>PreSets</h1>
+                    <div class="ui-grid-d">
+                        <div class="ui-block-a">
+                            <a data-role="button" onclick="presets(1)">1</a>
+                        </div>
+                        <div class="ui-block-b">
+                            <a data-role="button" onclick="presets(2)">2</a>
+                        </div>
+                        <div class="ui-block-c">
+                            <a data-role="button" onclick="presets(3)">3</a>
+                        </div>
+                        <div class="ui-block-d">
+                            <a data-role="button" onclick="presets(4)">4</a>
+                        </div>
+                        <div class="ui-block-e">
+                            <a data-role="button" onclick="presets(5)">5</a>
+                        </div>
+                    </div>
+                </div>
+                <div data-role="collapsible" data-iconpos="top" data-collapsed="false">
+                    <h1>Manual</h1>
+					<form>
+                    <select data-native-menu="false" id="Action" data-mini="true" onchange="ChangeGeneralVal(this.value)">
+                        <option value="1" selected="selected">Change Color - Smooth</option>
+                        <option value="2">Change Color - Rough</option>
+                        <option value="3">Change Color - Top</option>
+						<option value="4">Change Color - Rainbow</option>
+						<option value="5">Config1</option>
+						<option value="6">Config2</option>
+                    </select>
+					</form>
+					<div ID="AllConfig">
+              <!--      <fieldset data-role="controlgroup" data-mini="true">
+                        <legend></legend>
+                        <input type="radio" id="radio1" name="radio1" checked="checked" onchange="ChangeOctave('A')" />
+                        <label for="radio1">All Octaves</label>
+                        <input type="radio" id="radio3" name="radio1" onchange="ChangeOctave(Octave.value)" />
+                        <label for="radio3">Single Octave</label>
+                    </fieldset> -->
+                    <div data-role="fieldcontain" id="Octave">
+                        <label for="Octave-range">Octave (0-All)</label>
+                        <input type="range" id="Octave-range" value="0" min="0" max="7" step="1" onchange="ChangeOctave(this.value)"
+                        />
+                    </div>
+					<div align="center" ID="color1All">
+					<label for="background-color">Color1:</label>
+					<input ID="color1" type="color" id="html5colorpicker" onchange="ChangeColor(1,this.value)" value="#00FF00" style="width:85%"/>  
+                    </div>
+					<div align="center" ID="color2All">
+					<label for="background-color">Color2:</label>
+					<input ID="color2" type="color" id="html5colorpicker" onchange="ChangeColor(2,this.value)" value="#FFFF00" style="width:85%"/>  
+                    </div>
+					<div align="center" ID="color3All">
+					<label for="background-color">Color3:</label>
+					<input ID="color3" type="color" id="html5colorpicker" onchange="ChangeColor(3,this.value)" value="#FF0000" style="width:85%"/>  
+                    </div>					
+                    <div data-role="fieldcontain" id="var1">
+                        <label for="var1-range">Mid-Octave1 (%)</label>
+                        <input type="range" id="var1-range" value="50" min="0" max="100" step="1" onchange="ChangeVars(1,this.value)"
+                        />
+                    </div>
+                    <div data-role="fieldcontain" id="var2">
+                        <label for="var2-range">Mid-Octave2 (%)</label>
+                        <input type="range" id="var2-range" value="50" min="0" max="100" step="1" onchange="ChangeVars(2,this.value)"
+                        />
+                    </div>
+					
+                    <div data-role="fieldcontain" id="rainbowSpeed">
+                        <label for="rainbowSpeed-range">Rainbow Speed</label>
+                        <input type="range" id="rainbowSpeed-range" value="100" min="10" max="985" step="25" onchange="ChangeRainbowSpeed(this.value)"
+                        />
+                    </div>	
+
+                    <div data-role="fieldcontain" id="avgHistory">
+                        <label for="avgHistory-range">Avaraging (meausres)</label>
+                        <input type="range" id="avgHistory-range" value="10" min="1" max="10" step="1" onchange="ChangeAvgHistory(this.value)"
+                        />
+                    </div>		
+
+                    <div data-role="fieldcontain" id="delay">
+                        <label for="delay-range">refresh delay (ms)</label>
+                        <input type="range" id="delay-range" value="10" min="1" max="100" step="1" onchange="ChangeDelay(this.value)"
+                        />
+                    </div>		
+
+                    <div data-role="fieldcontain" id="noiseLevel">
+                        <label for="noiseLevel-range">Noise Level (x/1024)</label>
+                        <input type="range" id="noiseLevel-range" value="100" min="0" max="999" step="1" onchange="ChangeNoiseLevel(this.value)"
+                        />
+                    </div>						
+					
+					</div>
+                    <a data-role="button" data-transition="flow" data-theme="b" onclick="sendManual()">GO!</a>
+                </div>
+            </div>
+            <div data-role="footer">
+                <h1>Made by Amir Avni Using RIB: 01.org</h1>
+            </div>
+        </div>
+    </body>
+
+</html>
