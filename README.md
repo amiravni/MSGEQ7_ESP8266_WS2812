@@ -9,12 +9,14 @@ If you use Ver 2.0 of this equalizer (preferred):
    
    3. Change your WiFi definitions on the "definition.h" file.
     
-   4. Compile and upload the code via the Arduino IDE.
+   4. Compile and upload the code in MSGEQ7 folder via the Arduino IDE.
     
    5. Build the circuit from this post:
       http://www.whatimade.today/graphic-equalizer-using-esp8266-msgeq7-ws2812/
    
-   6. Enjoy!   
+   6. Upload the webpage folder content to your server, or use it straight from your computer.
+
+   7. Enjoy!   
 
 
 If you use Ver 1.0:
