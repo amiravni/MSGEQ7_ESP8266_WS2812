@@ -2,7 +2,9 @@
 An equalizer controlled by The ESP8266 with the NodeMCU firmware, where the equalizer colors are controlled via WiFi
 
 Posts:
+
 part 1 - http://www.whatimade.today/graphic-equalizer-using-esp8266-msgeq7-ws2812/
+
 part 2 - http://www.whatimade.today/part-2-spectrum-analyzer-with-esp8266-msgeq7-ws2812/
 
 If you use Ver 2.0 of this equalizer (preferred): 
